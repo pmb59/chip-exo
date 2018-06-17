@@ -1,0 +1,57 @@
+\documentclass{beamer}
+\beamertemplatenavigationsymbolsempty
+%add slide number
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
+
+\begin{document}
+
+\begin{frame}[fragile]{}
+Fig. 1
+<<my-label, eval=TRUE,  hide=FALSE,echo=FALSE, fig.width=5.5, fig.height=3.5>>=
+library(ggplot2)
+load('cexor_ctcf.Rdata')
+
+g1 <- data.frame(chr=rep(x$chr,2), peaks=c(x$rhee_pugh,x$CexoR), 
+                      type=c(rep('rhee_pugh',nrow(x)), rep('CexoR',nrow(x))  )  
+                  ) 
+
+p1<-ggplot(data=g1, aes(x=chr, y=peaks, fill=type)) +
+  geom_bar(stat="identity", position=position_dodge())+
+  scale_fill_brewer(palette="Paired")+
+  ylab('ChIP-exo peaks for human CTCF') +
+  xlab('')+
+  guides(fill=guide_legend(title=""))+
+  theme(axis.text.x=element_text(angle=90, hjust=1)) #+
+  
+p1
+@
+
+\end{frame}  
+
+\begin{frame}[fragile]{}
+Fig. 2
+
+<<my-label2, eval=TRUE,  hide=FALSE,echo=FALSE, fig.width=6, fig.height=3.5>>=
+g2 <- data.frame(chr=rep(x$chr,2), coverage=c(x$prop_rhee_pugh_cov,x$prop_CexoR_cov), 
+                 reference=c(rep('rhee_pugh',nrow(x)), rep('CexoR',nrow(x))  )  
+                ) 
+
+ p2 <- qplot(chr, coverage, data = g2,shape=reference) +  
+       ylab('Proportion of Overlap (%)') +
+       ylim(0,100)+
+       xlab('')+
+       theme(legend.key.height=unit(3,"line"))+
+       scale_shape_manual(name='',labels = c( "CexoR peaks showing\n overlap with Rhee\n and Pugh (2011) peaks", "Rhee and Pugh (2011)\n peaks showing overlap\n with CexoR peaks"),values=c(17,19) ) +
+       theme(axis.text.x=element_text(angle=90, hjust=1))
+ p2
+ @
+ 
+ \end{frame}
+ 
+\end{document}
+
