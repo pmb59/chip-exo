@@ -42,11 +42,8 @@ for (i in c('Y',"X",1:22)  ){
               col.names = TRUE)
   rm(pc)
   
-  
   rm(rep1,rep2,rep3,chrom,chrSel,chipexo)
-
 }
-
 
 
 system('head -n 1 chr1_cexor_binding_events.bed > head_cexor_binding_events.bed' )
@@ -60,9 +57,7 @@ system('cat head_cexor_peak_centres.bed temp.bed >  CTCF_cexor_peak_centres_pval
 system('rm temp.bed')
 
 
-
-##sort
-
+#sort
 be <- read.table('CTCF_cexor_binding_events_pval1e-9_idr0.01.bed', head=TRUE)
 write.table(x=be[order(-be$Mean.neg.log10pvalue),], file = 'CTCF_cexor_binding_events_pval1e-9_idr0.01_ranked.bed' , 
             append = FALSE, quote = FALSE, sep = "\t",
@@ -74,6 +69,3 @@ write.table(x=pc[order(-pc$Mean.neg.log10pvalue),], file = 'CTCF_cexor_peak_cent
             append = FALSE, quote = FALSE, sep = "\t",
             row.names = FALSE,
             col.names = TRUE)
-
-
-
